@@ -33,6 +33,7 @@ async function run() {
     // await client.connect();
 
     const userCollection = client.db("AutoHubDB").collection("Users");
+    const carCollection = client.db("AutoHubDB").collection("cars");
     
 
 
@@ -54,6 +55,16 @@ async function run() {
     })
 
 
+
+
+    // cars collection
+
+    app.post ('/cars',async(req,res)=>{
+         const car=req.body;
+        //  console.log(car);
+         const result=await carCollection.insertOne(car)
+         res.send(result)
+    })
 
 
 
