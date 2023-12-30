@@ -14,7 +14,7 @@ app.use(express.json())
 
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.tgzt8q2.mongodb.net/?retryWrites=true&w=majority`;
 
 
@@ -66,6 +66,19 @@ async function run() {
          res.send(result)
     })
 
+
+    app.get('/cars',async (req,res)=>{
+         const result=await carCollection.find().toArray()
+         res.send(result)
+
+    })
+
+    app.delete('/cars/:id',async(req,res)=>{
+         const id=req.params.id;
+         const query={_id:new ObjectId(id)}
+         const result=await carCollection.deleteOne(query)
+         res.send(result)
+    })
 
 
 
