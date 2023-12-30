@@ -72,6 +72,7 @@ async function run() {
          res.send(result)
 
     })
+
    
      app.get('/cars/:id',async (req,res)=>{
           const id=req.params.id;
@@ -86,6 +87,28 @@ async function run() {
          const query={_id:new ObjectId(id)}
          const result=await carCollection.deleteOne(query)
          res.send(result)
+    })
+
+    app.patch('/cars/:id',async(req,res)=>{
+         const updatecar=req.body;
+
+         const id=req.params.id;
+         const filter={_id:new ObjectId(id)}
+         const options = { upsert: true };
+         const updatedDoc={
+          $set:{ 
+            carName:updatecar.carName,
+            model:updatecar.model,
+            price:updatecar.price,
+            registration:updatecar.registration,
+            brand:updatecar.brand,
+          }
+
+       }
+
+       const result=await carCollection.updateOne(filter,updatedDoc,options)
+    res.send(result)
+
     })
 
 
